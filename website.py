@@ -6,7 +6,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 
 df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv')
-app = dash.Dash(__ethhome__)
+app = dash.Dash(__name__)
 app.layout = html.Div([
     html.H1('Ethereum Price Dashboard'),
     dcc.Graph(id='graph'),
@@ -55,6 +55,6 @@ app.layout = html.Div([
     dcc.Interval(id='interval-component', interval=60*1000, n_intervals=0)
 ], style={'font-family': 'sans-serif'})
 
-if __ethhome__ == '__main__':
+if __name__ == '__main__':
     app.run_server(debug=True)
 
