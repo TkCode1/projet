@@ -5,7 +5,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-df = pd.read_csv('eth_prices.csv')
+df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv')
 app = dash.Dash(__ethhome__)
 app.layout = html.Div([
     html.H1('Ethereum Price Dashboard'),
