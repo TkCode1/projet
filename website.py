@@ -7,6 +7,12 @@ import time
 # Load the CSV file containing the ETH price data
 df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], sep=';')
 
+# Get the last row of the DataFrame
+last_row = df.tail(1)
+
+# Get the current ETH price from the last row
+current_price = last_row['price'].values[0]
+
 # Create a Dash app
 app = dash.Dash(__name__)
 
