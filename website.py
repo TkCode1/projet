@@ -16,6 +16,15 @@ current_price = last_row['price'].values[0]
 # Create a Dash app
 app = dash.Dash(__name__)
 
+# Get the low, high, open, and close prices for the day
+today = datetime.datetime.today().strftime('%Y-%m-%d')
+today_df = df[df['date'] == today]
+low_price = today_df['price'].min()
+high_price = today_df['price'].max()
+open_price = today_df.iloc[0]['price']
+close_price = today_df.sort_values(['date', 'price'], ascending=[False, False]).iloc[0]['price']
+volatility = today_df['price'].std()
+
 # Define the layout of the app with the interval component
 app.layout = html.Div(children=[
     html.Img(src='https://logo-marque.com/wp-content/uploads/2020/12/Ethereum-Logo.png', style={'width': '200px'}),
@@ -83,14 +92,6 @@ def update_graph_data(n):
         }
     }
 
-    # Get the low, high, open, and close prices for the day
-    today = datetime.datetime.today().strftime('%Y-%m-%d')
-    today_df = df[df['date'] == today]
-    low_price = today_df['price'].min()
-    high_price = today_df['price'].max()
-    open_price = today_df.iloc[0]['price']
-    close_price = today_df.sort_values(['date', 'price'], ascending=[False, False]).iloc[0]['price']
-    volatility = today_df['price'].std()
 
 
 if __name__ == '__main__':
