@@ -7,6 +7,7 @@ import dash_core_components as dcc
 app = dash.Dash(__name__)
 
 df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], header=None)
+print(df.head())
 
 fig = px.line(df, x='date', y='price', title='Ethereum Price')
 
