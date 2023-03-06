@@ -24,8 +24,8 @@ app.layout = html.Div([
 def update_graph(n):
     # Get the latest data from the dataframe
     latest_df = df.tail(100) # get the last 100 rows
-    x = latest_df['Timestamp']
-    y = latest_df['Price']
+    x = latest_df['timestamp']
+    y = latest_df['price']
     
     # Create a line chart with Plotly
     fig = go.Figure()
