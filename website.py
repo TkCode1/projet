@@ -39,11 +39,35 @@ app.layout = html.Div(children=[
             }
         }
     )
+    
+    dcc.Tab(label='Summary', children=[
+        html.H3('Summary of ETH Prices Today', style={'color': 'white'}),
+        html.Table([
+            html.Thead(html.Tr([html.Th('Price'), html.Th('Value')])),
+            html.Tbody([
+                html.Tr([html.Td('Low'), html.Td(id='low-price')]),
+                html.Tr([html.Td('High'), html.Td(id='high-price')]),
+                html.Tr([html.Td('Open'), html.Td(id='open-price')]),
+                html.Tr([html.Td('Close'), html.Td(id='close-price')]),
+                html.Tr([html.Td('Volatility'), html.Td(id='volatility')]),
+            ])
+        ])
+    ])
 ])
 
 # Define the function to update the graph data
 @app.callback(dash.dependencies.Output('price-graph', 'figure'),
               [dash.dependencies.Input('interval-component', 'n_intervals')])
+
+# Define the function to update the graph data and summary tab data
+@app.callback([Output('price-graph', 'figure'),
+               Output('low-price', 'children'),
+               Output('high-price', 'children'),
+               Output('open-price', 'children'),
+               Output('close-price', 'children'),
+               Output('volatility', 'children')],
+              [Input('interval-component', 'n_intervals')])
+
 def update_graph_data(n):
     # Load the updated CSV file containing the ETH price data
     df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], sep=';')
@@ -58,6 +82,16 @@ def update_graph_data(n):
             'yaxis': {'title': 'Price ($)'}
         }
     }
+
+    # Get the low, high, open, and close prices for the day
+    today = datetime.datetime.today().strftime('%Y-%m-%d')
+    today_df = df[df['date'] == today]
+    low_price = today_df['price'].min()
+    high_price = today_df['price'].max()
+    open_price = today_df.iloc[0]['price']
+    close_price = today_df.sort_values(['date', 'price'], ascending=[False, False]).iloc[0]['price']
+    volatility = today_df['price'].std()
+
 
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0', port=8050)
