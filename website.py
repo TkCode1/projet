@@ -60,13 +60,13 @@ app.layout = html.Div(children=[
               [dash.dependencies.Input('interval-component', 'n_intervals')])
 
 # Define the function to update the graph data and summary tab data
-@app.callback([Output('price-graph', 'figure'),
-               Output('low-price', 'children'),
-               Output('high-price', 'children'),
-               Output('open-price', 'children'),
-               Output('close-price', 'children'),
-               Output('volatility', 'children')],
-              [Input('interval-component', 'n_intervals')])
+@app.callback([dash.dependencies.Output('price-graph', 'figure'),
+               dash.dependencies.Output('low-price', 'children'),
+               dash.dependencies.Output('high-price', 'children'),
+               dash.dependencies.Output('open-price', 'children'),
+               dash.dependencies.Output('close-price', 'children'),
+               dash.dependencies.Output('volatility', 'children')],
+              [dash.dependencies.Input('interval-component', 'n_intervals')])
 
 def update_graph_data(n):
     # Load the updated CSV file containing the ETH price data
