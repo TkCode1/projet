@@ -17,15 +17,6 @@ current_price = last_row['price'].values[0]
 # Create a Dash app
 app = dash.Dash(__name__)
 
-# Get the low, high, open, and close prices for the day
-today = datetime.datetime.today().strftime('%Y-%m-%d')
-today_df = df[df['date'] == today]
-low_price = today_df['price'].min()
-high_price = today_df['price'].max()
-open_price = today_df.iloc[0]['price']
-close_price = today_df.sort_values(['date', 'price'], ascending=[False, False]).iloc[0]['price']
-volatility = today_df['price'].std()
-
 # Define the layout of the app with the interval component
 app.layout = html.Div(children=[
     html.Img(src='https://logo-marque.com/wp-content/uploads/2020/12/Ethereum-Logo.png', style={'width': '200px'}),
@@ -49,34 +40,12 @@ app.layout = html.Div(children=[
             }
         }
     ),
-    
-    dcc.Tab(label='Summary', children=[
-        html.H3('Summary of ETH Prices Today', style={'color': 'white'}),
-        html.Table([
-            html.Thead(html.Tr([html.Th('Price'), html.Th('Value')])),
-            html.Tbody([
-                html.Tr([html.Td('Low'), html.Td(id='low-price')]),
-                html.Tr([html.Td('High'), html.Td(id='high-price')]),
-                html.Tr([html.Td('Open'), html.Td(id='open-price')]),
-                html.Tr([html.Td('Close'), html.Td(id='close-price')]),
-                html.Tr([html.Td('Volatility'), html.Td(id='volatility')]),
-            ])
-        ])
-    ])
 ])
 
 # Define the function to update the graph data
 @app.callback(dash.dependencies.Output('price-graph', 'figure'),
               [dash.dependencies.Input('interval-component', 'n_intervals')])
 
-# Define the function to update the graph data and summary tab data
-@app.callback([dash.dependencies.Output('price-graph', 'figure'),
-               dash.dependencies.Output('low-price', 'children'),
-               dash.dependencies.Output('high-price', 'children'),
-               dash.dependencies.Output('open-price', 'children'),
-               dash.dependencies.Output('close-price', 'children'),
-               dash.dependencies.Output('volatility', 'children')],
-              [dash.dependencies.Input('interval-component', 'n_intervals')])
 
 def update_graph_data(n):
     # Load the updated CSV file containing the ETH price data
