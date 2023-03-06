@@ -12,7 +12,7 @@ app = dash.Dash(__name__)
 
 # Define the layout of the app with the interval component
 app.layout = html.Div(children=[
-    html.H1(children='Ethereum Price Over Time'),
+    html.Img(src='https://logo-marque.com/wp-content/uploads/2020/12/Ethereum-Logo.png', style={'width': '200'}),
     dcc.Interval(
         id='interval-component',
         interval=5*60*1000, # in milliseconds
