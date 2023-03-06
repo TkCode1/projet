@@ -38,7 +38,7 @@ app.layout = html.Div(children=[
                 'yaxis': {'title': 'Price ($)'}
             }
         }
-    )
+    ),
     
     dcc.Tab(label='Summary', children=[
         html.H3('Summary of ETH Prices Today', style={'color': 'white'}),
