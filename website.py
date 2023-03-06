@@ -4,7 +4,7 @@ import dash_html_components as html
 import pandas as pd
 
 # Load the CSV file containing the ETH price data
-df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'])
+df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], sep = ';')
 
 # Create a Dash app
 app = dash.Dash(__name__)
