@@ -94,17 +94,20 @@ def update_graph_data(n):
 def update_daily_price_tab(n):
     # Get today's date
     today = datetime.datetime.today().strftime('%Y-%m-%d')
+    print(f'Today: {today}')
     # Get today's data from the DataFrame
     today_data = df[df['date'] == today]
+    print(f'Today data: {today_data}')
     # Get the open and close prices of the day
     open_price = today_data['price'].iloc[0]
     close_price = today_data['price'].iloc[-1]
     # Return the updated daily price information
     return html.Div([
         html.H2(f'Daily Price Information for {today}'),
-        html.P(f'Open Price: ${open_price}'),
-        html.P(f'Close Price: ${close_price}')
+        html.P(f'Open price: {open_price}'),
+        html.P(f'Close price: {close_price}')
     ])
+
 
 
 if __name__ == '__main__':
