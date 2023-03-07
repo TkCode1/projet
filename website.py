@@ -22,7 +22,7 @@ app.layout = html.Div(children=[
     html.Img(src='https://logo-marque.com/wp-content/uploads/2020/12/Ethereum-Logo.png', style={'width': '200px'}),
     #html.H1(children=f'ETH last price: ${current_price}'),
     #changes
-    html.H1(id='current-price', style={'text-align': 'center', 'color': '#3C3C3D'}),
+    html.H1(id='current-price', style={'text-align': 'center', 'color': '#627EEA'}),
     dcc.Interval(
         id='interval-component',
         interval=5*60*1000, # in milliseconds
@@ -33,7 +33,7 @@ app.layout = html.Div(children=[
         id='price-graph',
         figure={
             'data': [
-                {'x': df['date'], 'y': df['price'], 'type': 'line', 'name': 'ETH price'},
+                {'x': df['date'], 'y': df['price'], 'type': 'line', 'name': 'ETH price', 'line': {'color': '#627EEA'}},
             ],
             'layout': {
                 'title': 'ETH Price over Time',
