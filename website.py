@@ -22,7 +22,7 @@ app.layout = html.Div(children=[
     html.Img(src='https://logo-marque.com/wp-content/uploads/2020/12/Ethereum-Logo.png', style={'width': '200px'}),
     #html.H1(children=f'ETH last price: ${current_price}'),
     #changes
-    html.H1(id='current-price',html.Span(f'${current_price}', style={'color': 'blue'}), style={'text-align': 'center'}),
+    html.H1(id='current-price', style={'color': 'blue'}, style={'text-align': 'center'}),
     dcc.Interval(
         id='interval-component',
         interval=5*60*1000, # in milliseconds
