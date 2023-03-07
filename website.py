@@ -98,15 +98,23 @@ def update_daily_price_tab(n):
     # Get today's data from the DataFrame
     today_data = df[df['date'] == today]
     print(f'Today data: {today_data}')
-    # Get the open and close prices of the day
-    open_price = today_data['price'].iloc[0]
-    close_price = today_data['price'].iloc[-1]
-    # Return the updated daily price information
-    return html.Div([
-        html.H2(f'Daily Price Information for {today}'),
-        html.P(f'Open price: {open_price}'),
-        html.P(f'Close price: {close_price}')
-    ])
+    # Check if today_data is empty
+    if len(today_data) == 0:
+        # Return a message indicating that there is no data for today
+        return html.Div([
+            html.H2(f'Daily Price Information for {today}'),
+            html.P('No data for today.')
+        ])
+    else:
+        # Get the open and close prices of the day
+        open_price = today_data['price'].iloc[0]
+        close_price = today_data['price'].iloc[-1]
+        # Return the updated daily price information
+        return html.Div([
+            html.H2(f'Daily Price Information for {today}'),
+            html.P(f'Open price: {open_price}'),
+            html.P(f'Close price: {close_price}')
+        ])
 
 
 
