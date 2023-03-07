@@ -45,8 +45,8 @@ app.layout = html.Div(children=[
 ])
 #changes
 @app.callback(
-    Output('current-price', 'children'),
-    [Input('interval-component', 'n_intervals')]
+    dash.dependencies.Output('current-price', 'children'),
+    [dash.dependencies.Input('interval-component', 'n_intervals')]
 )
 def update_current_price(n):
     # Load the updated CSV file containing the ETH price data
