@@ -20,7 +20,9 @@ app = dash.Dash(__name__)
 # Define the layout of the app with the interval component
 app.layout = html.Div(children=[
     html.Img(src='https://logo-marque.com/wp-content/uploads/2020/12/Ethereum-Logo.png', style={'width': '200px'}),
-    html.H1(children=f'ETH last price: ${current_price}'),
+    #html.H1(children=f'ETH last price: ${current_price}'),
+    #changes
+    html.Div(id='current-price'),
     dcc.Interval(
         id='interval-component',
         interval=5*60*1000, # in milliseconds
@@ -41,6 +43,21 @@ app.layout = html.Div(children=[
         }
     ),
 ])
+#changes
+@app.callback(
+    Output('current-price', 'children'),
+    [Input('interval-component', 'n_intervals')]
+)
+def update_current_price(n):
+    # Load the updated CSV file containing the ETH price data
+    df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], sep=';')
+    # Get the last row of the DataFrame
+    last_row = df.tail(1)
+    # Get the current ETH price from the last row
+    current_price = last_row['price'].values[0]
+    # Return the updated current price display
+    return f'ETH last price: ${current_price}'
+
 
 # Define the function to update the graph data
 @app.callback(dash.dependencies.Output('price-graph', 'figure'),
