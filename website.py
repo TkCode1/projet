@@ -92,28 +92,28 @@ def update_graph_data(n):
 )
 
 def update_daily_price_tab(n):
-    # Get today's date
-    today = datetime.datetime.today().strftime('%Y-%m-%d')
-    print(f'Today: {today}')
-    # Get today's data from the DataFrame
-    today_data = df[df['date'] == today]
-    print(f'Today data: {today_data}')
-    # Check if today_data is empty
-    if len(today_data) == 0:
-        # Return a message indicating that there is no data for today
+    # Get yesterday's date in the UTC+1 timezone
+    tz = datetime.timezone(datetime.timedelta(hours=1))
+    yesterday = datetime.datetime.now(tz).date() - datetime.timedelta(days=1)
+    
+    # Filter the DataFrame to get yesterday's data
+    yesterday_data = df[df['date'] == yesterday.isoformat()]
+    
+    if len(yesterday_data) == 0:
+        # Return a message indicating that there is no data for yesterday
         return html.Div([
-            html.H2(f'Daily Price Information for {today}'),
-            html.P('No data for today.')
+            html.H2(f'Daily Price Information for {yesterday}'),
+            html.P('No data for yesterday.')
         ])
     else:
-        # Get the open and close prices of the day
-        open_price = today_data['price'].iloc[0]
-        close_price = today_data['price'].iloc[-1]
+        # Get the open and close prices of yesterday
+        open_price = yesterday_data['price'].iloc[0]
+        close_price = yesterday_data['price'].iloc[-1]
         # Return the updated daily price information
         return html.Div([
-            html.H2(f'Daily Price Information for {today}'),
-            html.P(f'Open price: {open_price}'),
-            html.P(f'Close price: {close_price}')
+            html.H2(f'Daily Price Information for {yesterday}'),
+            html.P(f'Open price (midnight UTC+1): {open_price}'),
+            html.P('No close price available.')
         ])
 
 
