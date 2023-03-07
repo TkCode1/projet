@@ -33,7 +33,7 @@ app.layout = html.Div(children=[
         id='price-graph',
         figure={
             'data': [
-                {'x': df['date'], 'y': df['price'], 'type': 'line', 'name': 'ETH price', 'line': {'color': 'red'}},
+                {'x': df['date'], 'y': df['price'], 'type': 'line', 'name': 'ETH price', 'line': {'color': '#627EEA'}},
             ],
             'layout': {
                 'title': 'ETH Price over Time',
@@ -70,7 +70,7 @@ def update_graph_data(n):
     # Return the updated figure
     return {
         'data': [
-            {'x': df['date'], 'y': df['price'], 'type': 'line', 'name': 'ETH price'},
+            {'x': df['date'], 'y': df['price'], 'type': 'line', 'name': 'ETH price', 'line': {'color': '#627EEA'}},
         ],
         'layout': {
             'title': 'ETH Price over Time',
