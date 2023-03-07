@@ -42,6 +42,12 @@ app.layout = html.Div(children=[
             }
         }
     ),
+    # Add a tab for daily price information
+    dcc.Tabs(id='daily-price-tab', value='tab-1', children=[
+        dcc.Tab(label='Daily Price Information', value='tab-1', children=[
+            html.Div(id='daily-price-content'),
+        ]),
+    ]),
 ])
 #changes
 @app.callback(
@@ -79,6 +85,26 @@ def update_graph_data(n):
         }
     }
 
+# Define the function to update the daily price information tab
+@app.callback(
+    dash.dependencies.Output('daily-price-content', 'children'),
+    [dash.dependencies.Input('interval-component', 'n_intervals')]
+)
+
+def update_daily_price_tab(n):
+    # Get today's date
+    today = datetime.datetime.today().strftime('%Y-%m-%d')
+    # Get today's data from the DataFrame
+    today_data = df[df['date'] == today]
+    # Get the open and close prices of the day
+    open_price = today_data['price'].iloc[0]
+    close_price = today_data['price'].iloc[-1]
+    # Return the updated daily price information
+    return html.Div([
+        html.H2(f'Daily Price Information for {today}'),
+        html.P(f'Open Price: ${open_price}'),
+        html.P(f'Close Price: ${close_price}')
+    ])
 
 
 if __name__ == '__main__':
