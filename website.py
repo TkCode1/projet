@@ -39,7 +39,7 @@ app.layout = html.Div(children=[
                 'title': 'ETH Price over Time',
                 'xaxis': {'title': 'Date'},
                 'yaxis': {'title': 'Price ($)'},
-                'color': '#627EEA'
+                'line ' : {'color': '#627EEA'}
             }
         }
     ),
