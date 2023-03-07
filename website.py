@@ -19,7 +19,7 @@ app = dash.Dash(__name__)
 
 # Define the layout of the app with the interval component
 app.layout = html.Div(children=[
-    html.Img(src='https://logo-marque.com/wp-content/uploads/2020/12/Ethereum-Logo.png', style={'width': '200px'}),
+    html.Img(src='https://logo-marque.com/wp-content/uploads/2020/12/Ethereum-Logo.png', style={'width': '200px', 'margin': '0 auto'}),
     #html.H1(children=f'ETH last price: ${current_price}'),
     #changes
     html.H1(id='current-price', style={'text-align': 'center', 'color': '#627EEA'}),
