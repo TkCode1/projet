@@ -33,7 +33,7 @@ app.layout = html.Div(children=[
         id='price-graph',
         figure={
             'data': [
-                {'x': df['date'], 'y': df['price'], 'mode': 'lines', 'name': 'ETH price', 'line': {'color': '#627eea'}},
+                {'x': df['date'], 'y': df['price'], 'mode': 'lines', 'name': 'ETH price', 'line': {'color': '#627EEA'}},
             ],
             'layout': {
                 'title': 'ETH Price over Time',
