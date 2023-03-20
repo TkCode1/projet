@@ -89,6 +89,7 @@ def update_price_report():
     today = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     # Get the close price of yesterday and the open price of today
     yesterday_close = df[df['date'] == yesterday.strftime('%Y-%m-%d %H:%M:%S')]['price'].values[0]
+    print(yesterday_close)
     today_open = df[df['date'] == today.strftime('%Y-%m-%d %H:%M:%S')]['price'].values[0]
     # Return the price report
     return f'Yesterday close price: ${yesterday_close} - Today open price: ${today_open}'
