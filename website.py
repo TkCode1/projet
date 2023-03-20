@@ -42,12 +42,6 @@ app.layout = html.Div(children=[
             }
         }
     ),
-    # Add a tab for daily price information
-    dcc.Tabs(id='daily-price-tab', value='tab-1', children=[
-        dcc.Tab(label='Daily Price Information', value='tab-1', children=[
-            html.Div(id='daily-price-content'),
-        ]),
-    ]),
 ])
 #changes
 @app.callback(
@@ -68,66 +62,6 @@ def update_current_price(n):
 # Define the function to update the graph data
 @app.callback(dash.dependencies.Output('price-graph', 'figure'),
               [dash.dependencies.Input('interval-component', 'n_intervals')])
-
-
-def update_daily_price_tab():
-    # Get yesterday's date in UTC+1 timezone
-    tz = pytz.timezone('Europe/Paris')
-    yesterday = datetime.now(tz) - timedelta(days=1)
-    yesterday_str = yesterday.strftime('%Y-%m-%d')
-
-    # Read the csv file
-    df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', parse_dates=['timestamp'])
-
-    # Filter data for yesterday's date
-    yesterday_data = df[df['timestamp'].dt.date == yesterday.date()]
-
-    if yesterday_data.empty:
-        print(f"No data for {yesterday_str}")
-        return
-
-    # Get the last row of yesterday's data
-    last_row = yesterday_data.tail(1)
-
-    # Display the open and close prices for yesterday's midnight
-    open_price = last_row.iloc[0]['price']
-    close_price = df[df['timestamp'].dt.date == datetime.now(tz).date()].iloc[0]['price']
-    print(f"Daily Price Information for {yesterday_str}\n")
-    print(f"Open: {open_price}")
-    print(f"Close: {close_price}")
-
-
-# Define the function to update the daily price information tab
-@app.callback(
-    dash.dependencies.Output('daily-price-content', 'children'),
-    [dash.dependencies.Input('interval-component', 'n_intervals')]
-)
-
-def update_daily_price_tab(n):
-    # Get yesterday's date in the UTC+1 timezone
-    tz = datetime.timezone(datetime.timedelta(hours=1))
-    yesterday = datetime.datetime.now(tz).date() - datetime.timedelta(days=1)
-    
-    # Filter the DataFrame to get yesterday's data
-    yesterday_data = df[df['date'] == yesterday.isoformat()]
-    
-    if len(yesterday_data) == 0:
-        # Return a message indicating that there is no data for yesterday
-        return html.Div([
-            html.H2(f'Daily Price Information for {yesterday}'),
-            html.P('No data for yesterday.')
-        ])
-    else:
-        # Get the open and close prices of yesterday
-        open_price = yesterday_data['price'].iloc[0]
-        close_price = yesterday_data['price'].iloc[-1]
-        # Return the updated daily price information
-        return html.Div([
-            html.H2(f'Daily Price Information for {yesterday}'),
-            html.P(f'Open price (midnight UTC+1): {open_price}'),
-            html.P('No close price available.')
-        ])
-
 
 
 if __name__ == '__main__':
