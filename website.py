@@ -70,20 +70,32 @@ def update_current_price(n):
               [dash.dependencies.Input('interval-component', 'n_intervals')])
 
 
-def update_graph_data(n):
-    # Load the updated CSV file containing the ETH price data
-    df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], sep=';')
-    # Return the updated figure
-    return {
-        'data': [
-            {'x': df['date'], 'y': df['price'], 'type': 'line', 'name': 'ETH price', 'line': {'color': '#627EEA'}},
-        ],
-        'layout': {
-            'title': 'ETH Price over Time',
-            'xaxis': {'title': 'Date'},
-            'yaxis': {'title': 'Price ($)'}
-        }
-    }
+def update_daily_price_tab():
+    # Get yesterday's date in UTC+1 timezone
+    tz = pytz.timezone('Europe/Paris')
+    yesterday = datetime.now(tz) - timedelta(days=1)
+    yesterday_str = yesterday.strftime('%Y-%m-%d')
+
+    # Read the csv file
+    df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', parse_dates=['timestamp'])
+
+    # Filter data for yesterday's date
+    yesterday_data = df[df['timestamp'].dt.date == yesterday.date()]
+
+    if yesterday_data.empty:
+        print(f"No data for {yesterday_str}")
+        return
+
+    # Get the last row of yesterday's data
+    last_row = yesterday_data.tail(1)
+
+    # Display the open and close prices for yesterday's midnight
+    open_price = last_row.iloc[0]['price']
+    close_price = df[df['timestamp'].dt.date == datetime.now(tz).date()].iloc[0]['price']
+    print(f"Daily Price Information for {yesterday_str}\n")
+    print(f"Open: {open_price}")
+    print(f"Close: {close_price}")
+
 
 # Define the function to update the daily price information tab
 @app.callback(
