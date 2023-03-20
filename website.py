@@ -2,6 +2,8 @@ import dash
 from dash import dcc
 from dash import html
 import pandas as pd
+import datetime
+import time
 
 # Load the CSV file containing the ETH price data
 df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], sep=';')
@@ -38,6 +40,10 @@ app.layout = html.Div(children=[
             }
         }
     ),
+    html.Div(
+    id='price-report',
+    style={'text-align': 'center', 'margin-top': '20px'}
+    ),
 ])
 
 # Define the function to update the current price display
@@ -72,6 +78,35 @@ def update_graph_data(n):
             'yaxis': {'title': 'Price ($)'}
         }
     }
+
+def update_price_report():
+    # Load the CSV file containing the ETH price data
+    df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], sep=';')
+    # Get the date of yesterday at 23:55
+    yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+    yesterday = yesterday.replace(hour=23, minute=55, second=0, microsecond=0)
+    # Get the date of today at 00:00
+    today = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    # Get the close price of yesterday and the open price of today
+    yesterday_close = df[df['date'] == yesterday.strftime('%Y-%m-%d %H:%M:%S')]['price'].values[0]
+    today_open = df[df['date'] == today.strftime('%Y-%m-%d %H:%M:%S')]['price'].values[0]
+    # Return the price report
+    return f'Yesterday close price: ${yesterday_close} - Today open price: ${today_open}'
+
+@app.callback(
+    dash.dependencies.Output('price-report', 'children'),
+    [dash.dependencies.Input('interval-component', 'n_intervals')]
+)
+
+def update_price_report_callback(n):
+    # Get the current time
+    now = datetime.datetime.now()
+    # If it is 20:00 or later, update the price report
+    if now.hour >= 20:
+        return update_price_report()
+    else:
+        return ''
+
 
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0', port=8050)
