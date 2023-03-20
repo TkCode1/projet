@@ -102,7 +102,7 @@ def update_price_report_callback(n):
     # Get the current time
     now = datetime.datetime.now()
     # If it is 20:00 or later, update the price report
-    if now.hour >= 20:
+    if now.hour >= 11:
         return update_price_report()
     else:
         return ''
