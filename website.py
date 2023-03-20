@@ -62,6 +62,7 @@ def update_current_price(n):
 # Define the function to update the graph data
 @app.callback(dash.dependencies.Output('price-graph', 'figure'),
               [dash.dependencies.Input('interval-component', 'n_intervals')])
+)
 
 
 if __name__ == '__main__':
