@@ -41,6 +41,8 @@ app.layout = html.Div(children=[
             }
         }
     ),
+    # Add a Div to display the report under the graph
+    html.Div(id='daily-report', style={'text-align': 'center', 'color': '#627EEA'})
 ])
 
 # Define the function to update the current price display
