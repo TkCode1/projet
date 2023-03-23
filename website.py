@@ -105,10 +105,10 @@ def update_daily_report(n):
     yesterday = today - datetime.timedelta(days=1)
 
     # Get the open price for the current day
-    open_price_today = float(df[df['date'].dt.date == today].iloc[0]['price'])
+    open_price_today = float(df[df['date'].dt.date == today].iloc[0]['price'].replace(',',''))
 
     # Get the close price for the last day
-    close_price_yesterday = float(df[df['date'].dt.date == yesterday].iloc[-1]['price'])
+    close_price_yesterday = float(df[df['date'].dt.date == yesterday].iloc[-1]['price'].replace(',',''))
 
     # Return the updated daily report
     return f"Open price today: ${open_price_today:.2f} | Close price yesterday: ${close_price_yesterday:.2f}"
