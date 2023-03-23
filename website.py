@@ -82,7 +82,7 @@ def update_graph_data(n):
 # Define a function to determine whether it's 8 pm or later
 def is_time_to_update():
     local_time = datetime.datetime.now(pytz.timezone('UTC'))
-    return local_time.hour >= 20
+    return local_time.hour >= 10
 
 # Define the function to update the daily report
 @app.callback(
