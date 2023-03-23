@@ -113,8 +113,6 @@ def update_daily_report(n):
     # Return the updated daily report
     return f"Open price today: ${open_price_today:.2f} | Close price yesterday: ${close_price_yesterday:.2f}"
 
-if __name__ == '__main__':
-    app.run_server(debug=True, host='0.0.0.0', port=8050)
-    
+
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0', port=8050)
