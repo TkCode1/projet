@@ -76,44 +76,6 @@ def update_graph_data(n):
         }
     }
 
-# TAB ADD
-# Add a new Div to display the report under the graph
-app.layout.children.append(html.Div(id='daily-report', style={'text-align': 'center', 'color': '#627EEA'}))
-
-# Define a function to determine whether it's 8 pm or later
-def is_time_to_update():
-    local_time = datetime.datetime.now(pytz.timezone('UTC'))
-    return local_time.hour >= 20
-
-# Define the function to update the daily report
-@app.callback(
-    dash.dependencies.Output('daily-report', 'children'),
-    [dash.dependencies.Input('interval-component', 'n_intervals')]
-)
-def update_daily_report(n):
-    if not is_time_to_update():
-        return dash.no_update
-
-    # Load the updated CSV file containing the ETH price data
-    df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], sep=';')
-    
-    # Convert the date column to datetime objects
-    df['date'] = pd.to_datetime(df['date'])
-
-  # Calculate the open price of the current day and the close price of the last day
-    now = datetime.datetime.now(pytz.timezone('UTC'))
-    today = now.date()
-    yesterday = today - datetime.timedelta(days=1)
-
-    # Get the open price for the current day
-    open_price_today = df[df['date'].dt.date == today].iloc[0]['price']
-
-    # Get the close price for the last day
-    close_price_yesterday = df[df['date'].dt.date == yesterday].iloc[-1]['price']
-
-    # Return the updated daily report
-    return f"Open price today: ${open_price_today:.2f} | Close price yesterday: ${close_price_yesterday:.2f}"
-
     
 if __name__ == '__main__':
     app.run_server(debug=True, host='0.0.0.0', port=8050)
