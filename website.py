@@ -51,7 +51,7 @@ app.layout = html.Div(children=[
         }
     ),
     # Add a Div to display the report under the graph
-    html.Div(id='daily-report', style={'color': '#627EEA', 'margin-left': '10px', 'text-align': 'left'})
+    html.Div(id='daily-report', style={'color': '#627EEA', 'margin-left': '100px', 'text-align': 'left'})
 ])
 
 
