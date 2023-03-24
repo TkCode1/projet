@@ -44,7 +44,7 @@ app.layout = html.Div(children=[
         }
     ),
     # Add a Div to display the report under the graph
-    html.Div(id='daily-report', style={'text-align': 'center', 'color': '#627EEA'}),
+    html.Div(id='daily-report', style={'text-align': 'center', 'color': '#627EEA'})
 ])
 
 
@@ -126,8 +126,8 @@ def update_daily_report(n):
     # Determine the color of the percentage change text
     color = 'green' if percentage_change >= 0 else 'red'
     
-    all_time_high = float(df['price'].max().replace(',', ''))
-    all_time_low = float(df['price'].min().replace(',', ''))
+    all_time_high = float(df['price'].max()).replace(',', '')
+    all_time_low = float(df['price'].min()).replace(',', '')
 
     # Return the updated daily report
     return html.Div([
