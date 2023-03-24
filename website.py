@@ -17,13 +17,20 @@ last_row = df.tail(1)
 # Get the current ETH price from the last row
 current_price = last_row['price'].values[0]
 
+font = [
+    {
+        'href': 'https://fonts.googleapis.com/css?family=Poppins&display=swap',
+        'rel': 'stylesheet'
+    }
+]
+
 # Create a Dash app
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=font)
 
 # Define the layout of the app with the interval component
 app.layout = html.Div(children=[
     html.Img(src='https://logo-marque.com/wp-content/uploads/2020/12/Ethereum-Logo.png', style={'width': '200px', 'display': 'block', 'margin': '0 auto'}),
-    html.H1(id='current-price', style={'text-align': 'center', 'color': '#627EEA'}),
+    html.H1(id='current-price', style={'text-align': 'center', 'color': '#627EEA', 'font-family': 'Poppins, sans-serif'}),
     dcc.Interval(
         id='interval-component',
         interval=5*60*1000, # in milliseconds
@@ -132,7 +139,7 @@ def update_daily_report(n):
 
     # Return the updated daily report
     return html.Div([
-        html.H2('Ethereum Daily Market Information (updating at 8pm each day)', style={'text-align': 'left', 'color': '#627EEA'}),
+        html.H2('Ethereum Daily Market Information (updating at 8pm each day)', style={'text-align': 'left', 'color': '#627EEA', 'font-family': 'Poppins, sans-serif'}),
         html.P(f"Open price today: ${open_price_today:.2f}"), 
         html.P(f"Close price yesterday: ${open_price_yesterday:.2f}"),
         html.P(f"24-hour Volatility: ${last_24h_volatility:.2f}"),
