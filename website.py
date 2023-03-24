@@ -47,29 +47,6 @@ app.layout = html.Div(children=[
     html.Div(id='daily-report', style={'text-align': 'center', 'color': '#627EEA'}),
 ])
 
-    # Add the eth usd convertor
-app.layout.children.extend([
-    html.H3('ETH to USD Converter', style={'text-align': 'center', 'color': '#627EEA'}),
-    dbc.InputGroup([
-        dbc.InputGroupText('ETH'),
-        dbc.Input(id='eth-input', type='number', placeholder='Enter amount in ETH', min=0),
-        dbc.InputGroupText('USD'),
-        dbc.Input(id='usd-output', readonly=True, placeholder='Converted amount'),
-    ], style={'width': '50%', 'margin': '0 auto'}),
-])
-
-# Define the function to update the USD output based on the ETH input
-@app.callback(
-    dash.dependencies.Output('usd-output', 'value'),
-    [dash.dependencies.Input('eth-input', 'value')]
-)
-def convert_eth_to_usd(eth_amount):
-    if eth_amount is None:
-        return ''
-    
-    usd_amount = eth_amount * current_price
-    return f'{usd_amount:.2f}'
-
 
 # Define the function to update the current price display
 @app.callback(
