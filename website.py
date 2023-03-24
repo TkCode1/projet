@@ -52,7 +52,7 @@ app.layout = html.Div(children=[
         dbc.InputGroupText('ETH'),
         dbc.Input(id='eth-input', type='number', placeholder='Enter amount in ETH', min=0),
         dbc.InputGroupText('USD'),
-        dbc.Input(id='usd-output', readOnly=True, placeholder='Converted amount'),
+        dbc.Input(id='usd-output', readonly=True, placeholder='Converted amount'),
     ], style={'width': '50%', 'margin': '0 auto'}),
 ])
 
