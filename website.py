@@ -138,7 +138,9 @@ def update_daily_report(n):
         html.P(f"Percentage change in open price (today vs. yesterday): ", style={'display': 'inline'}),
         html.P(f"{percentage_change:.2f}%", style={'display': 'inline', 'color': color}),
         html.Br(),
+        html.Br(),
         html.P(f"All-time high (since the website creation): ", style={'display': 'inline'}), html.P(f"${all_time_high:.2f}", style={'display': 'inline', 'color': 'green'}), 
+        html.Br(),
         html.Br(),
         html.P(f"All-time low (since the website creation): ", style={'display': 'inline'}), html.P(f"${all_time_low:.2f}", style={'display': 'inline', 'color': 'red'})
     ])
