@@ -126,8 +126,9 @@ def update_daily_report(n):
     # Determine the color of the percentage change text
     color = 'green' if percentage_change >= 0 else 'red'
     
-    all_time_high = df['price'].astype(float).max()
-    all_time_low = df['price'].astype(float).min()
+    dfpricereplaced = df['price'].str.replace(',', '').astype(float)
+    all_time_high = dfpricereplaced.max()
+    all_time_low = dfpricereplaced.min()
 
     # Return the updated daily report
     return html.Div([
