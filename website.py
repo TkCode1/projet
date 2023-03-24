@@ -109,9 +109,25 @@ def update_daily_report(n):
 
     # Get the close price for the last day
     close_price_yesterday = float(df[df['date'].dt.date == yesterday].iloc[-1]['price'].replace(',',''))
+    
+    # Get the open price for the last day
+    open_price_yesterday = float(df[df['date'].dt.date == yesterday].iloc[0]['price'].replace(',', ''))
+    prcentage_change = ((open_price_today - open_price_yesterday) / open_price_yesterday) * 100
+        
+   # Calculate the 24-hour volatility
+last_24h_prices = df[df['date'].dt.date == yesterday]['price'].astype(float).tolist() + [open_price_today]
+last_24h_volatility = np.std(last_24h_prices)
 
-    # Return the updated daily report
-    return f"Open price today: ${open_price_today:.2f} | Close price yesterday: ${close_price_yesterday:.2f}"
+# Determine the color of the percentage change text
+color = 'green' if percentage_change >= 0 else 'red'
+
+# Return the updated daily report
+return html.Div([
+    html.P(f"Open price today: ${open_price_today:.2f} | Close price yesterday: ${open_price_yesterday:.2f}"),
+    html.P(f"24-hour Volatility: ${last_24h_volatility:.2f}"),
+    html.P(f"Percentage change in open price (today vs. yesterday): ", style={'display': 'inline'}),
+    html.P(f"{percentage_change:.2f}%", style={'display': 'inline', 'color': color})
+])
 
 
 if __name__ == '__main__':
