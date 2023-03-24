@@ -119,7 +119,7 @@ def update_daily_report(n):
         
     # Calculate the 24-hour volatility
     last_24h_prices = df[df['date'].dt.date == yesterday]['price'].replace(',', '', regex=True).astype(float)
-    last_24h_prices = last_24h_prices.concat(pd.Series([open_price_today]))
+    last_24h_prices = pd.concat([last_24h_prices, pd.Series([open_price_today])], ignore_index=True)
 
     last_24h_volatility = np.std(last_24h_prices)
 
