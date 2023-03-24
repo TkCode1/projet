@@ -115,7 +115,7 @@ def update_daily_report(n):
     prcentage_change = ((open_price_today - open_price_yesterday) / open_price_yesterday) * 100
         
     # Calculate the 24-hour volatility
-    last_24h_prices = float(df[df['date'].dt.date == yesterday]['price'].replace(',', '')) + [open_price_today]
+    last_24h_prices = float(df[df['date'].dt.date == yesterday].iloc[0]['price'].replace(',', '')) + [open_price_today]
     last_24h_volatility = np.std(last_24h_prices)
 
     # Determine the color of the percentage change text
