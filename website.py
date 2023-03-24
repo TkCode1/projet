@@ -51,7 +51,7 @@ app.layout = html.Div(children=[
         }
     ),
     # Add a Div to display the report under the graph
-    html.Div(id='daily-report', style={'text-align': 'center', 'color': '#627EEA', 'margin-left': '10px', 'text-align': 'left'})
+    html.Div(id='daily-report', style={'color': '#627EEA', 'margin-left': '100px', 'text-align': 'left'})
 ])
 
 
@@ -92,7 +92,7 @@ def update_graph_data(n):
 # Define a function to determine whether it's 8 pm or later
 def is_time_to_update():
     local_time = datetime.datetime.now(pytz.timezone('UTC'))
-    return local_time.hour >= 10
+    return local_time.hour >= 20
 
 # Define the function to update the daily report
 @app.callback(
