@@ -137,10 +137,10 @@ def update_daily_report(n):
         html.P(f"24-hour Volatility: ${last_24h_volatility:.2f}"),
         html.P(f"Percentage change in open price (today vs. yesterday): ", style={'display': 'inline'}),
         html.P(f"{percentage_change:.2f}%", style={'display': 'inline', 'color': color}),
-        html.P(html.Br()),
-        html.P(f"All-time high (since the website creation): ", style={'display': 'inline'}), html.P(f"${all_time_high:.2f}", style={'display': 'inline', 'color': 'green'}), 
-        html.P(html.Br()),
-        html.P(f"All-time low (since the website creation): ", style={'display': 'inline'}), html.P(f"${all_time_low:.2f}", style={'display': 'inline', 'color': 'red'})
+        #html.P(html.Br()),
+        html.P(f"<br>All-time high (since the website creation): ", style={'display': 'inline'}), html.P(f"${all_time_high:.2f}", style={'display': 'inline', 'color': 'green'}), 
+        #html.P(html.Br()),
+        html.P(f"<br>All-time low (since the website creation): ", style={'display': 'inline'}), html.P(f"${all_time_low:.2f}", style={'display': 'inline', 'color': 'red'})
     ])
 
 
