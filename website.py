@@ -45,7 +45,8 @@ app.layout = html.Div(children=[
     ),
     # Add a Div to display the report under the graph
     html.Div(id='daily-report', style={'text-align': 'center', 'color': '#627EEA'}),
-    
+])
+
     # Add the eth usd convertor
 app.layout.children.extend([
     html.H3('ETH to USD Converter', style={'text-align': 'center', 'color': '#627EEA'}),
