@@ -43,8 +43,30 @@ app.layout = html.Div(children=[
         }
     ),
     # Add a Div to display the report under the graph
-    html.Div(id='daily-report', style={'text-align': 'center', 'color': '#627EEA'})
+    html.Div(id='daily-report', style={'text-align': 'center', 'color': '#627EEA'}),
+    
+    # Add the eth usd convertor
+    html.H3('ETH to USD Converter', style={'text-align': 'center', 'color': '#627EEA'}),
+    dbc.InputGroup([
+        dbc.InputGroupAddon('ETH', addon_type='prepend'),
+        dbc.Input(id='eth-input', type='number', placeholder='Enter amount in ETH', min=0),
+        dbc.InputGroupAddon('USD', addon_type='append'),
+        dbc.Input(id='usd-output', readOnly=True, placeholder='Converted amount'),
+    ], style={'width': '50%', 'margin': '0 auto'}),
 ])
+
+# Define the function to update the USD output based on the ETH input
+@app.callback(
+    dash.dependencies.Output('usd-output', 'value'),
+    [dash.dependencies.Input('eth-input', 'value')]
+)
+def convert_eth_to_usd(eth_amount):
+    if eth_amount is None:
+        return ''
+    
+    usd_amount = eth_amount * current_price
+    return f'{usd_amount:.2f}'
+
 
 # Define the function to update the current price display
 @app.callback(
@@ -123,13 +145,19 @@ def update_daily_report(n):
 
     # Determine the color of the percentage change text
     color = 'green' if percentage_change >= 0 else 'red'
+    
+    all_time_high = float(df['price'].replace(',', '')).max()
+    all_time_low = float(df['price'].replace(',', '')).min()
 
     # Return the updated daily report
     return html.Div([
-        html.P(f"Open price today: ${open_price_today:.2f} | Close price yesterday: ${open_price_yesterday:.2f}"),
+        html.P(f"Open price today: ${open_price_today:.2f}"), 
+        html.P(f"Close price yesterday: ${open_price_yesterday:.2f}"),
         html.P(f"24-hour Volatility: ${last_24h_volatility:.2f}"),
         html.P(f"Percentage change in open price (today vs. yesterday): ", style={'display': 'inline'}),
-        html.P(f"{percentage_change:.2f}%", style={'display': 'inline', 'color': color})
+        html.P(f"{percentage_change:.2f}%", style={'display': 'inline', 'color': color}),
+        html.P(f"All-time high (since the website creation): ${all_time_high:.2f}", style={'text-align': 'center', 'color': '#627EEA'}), 
+        html.P(f"All-time low (since the website creation): ${all_time_low:.2f}", style={'text-align': 'center', 'color': '#627EEA'})
     ])
 
 
