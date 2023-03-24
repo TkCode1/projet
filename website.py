@@ -49,9 +49,9 @@ app.layout = html.Div(children=[
     # Add the eth usd convertor
     html.H3('ETH to USD Converter', style={'text-align': 'center', 'color': '#627EEA'}),
     dbc.InputGroup([
-        dbc.InputGroupText('ETH', addon_type='prepend'),
+        dbc.InputGroupText('ETH'),
         dbc.Input(id='eth-input', type='number', placeholder='Enter amount in ETH', min=0),
-        dbc.InputGroupText('USD', addon_type='append'),
+        dbc.InputGroupText('USD'),
         dbc.Input(id='usd-output', readOnly=True, placeholder='Converted amount'),
     ], style={'width': '50%', 'margin': '0 auto'}),
 ])
