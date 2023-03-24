@@ -6,6 +6,7 @@ import pandas as pd
 import datetime
 import time
 import pytz
+import dash_bootstrap_components as dbc
 
 # Load the CSV file containing the ETH price data
 df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], sep=';')
