@@ -8,15 +8,16 @@ import time
 import pytz
 import dash_bootstrap_components as dbc
 
-# Load the CSV file containing the ETH price data
+# Load CSV with ETH prices
 df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], sep=';')
 
-# Get the last row of the DataFrame
+# Get the last row of the DataFrame (the last price)
 last_row = df.tail(1)
 
 # Get the current ETH price from the last row
 current_price = last_row['price'].values[0]
 
+# Use a custom font on the Dash app 
 font = [
     {
         'href': 'https://fonts.googleapis.com/css?family=Poppins&display=swap',
@@ -27,13 +28,13 @@ font = [
 # Create a Dash app
 app = dash.Dash(__name__, external_stylesheets=font)
 
-# Define the layout of the app with the interval component
+# Define the layout and design of the app, define the interval timer
 app.layout = html.Div(children=[
     html.Img(src='https://logo-marque.com/wp-content/uploads/2020/12/Ethereum-Logo.png', style={'width': '200px', 'display': 'block', 'margin': '0 auto'}),
     html.H1(id='current-price', style={'text-align': 'center', 'color': '#627EEA', 'font-family': 'Poppins, sans-serif'}),
     dcc.Interval(
         id='interval-component',
-        interval=5*60*1000, # in milliseconds
+        interval=5*60*1000,
         n_intervals=0
     ),
     # Add a graph showing the price of ETH over time
@@ -50,7 +51,7 @@ app.layout = html.Div(children=[
             }
         }
     ),
-    # Add a Div to display the report under the graph
+    # Add a Div to display the daily report under the graph
     html.Div(id='daily-report', style={'color': '#627EEA', 'margin-left': '100px', 'text-align': 'left'})
 ])
 
@@ -89,10 +90,10 @@ def update_graph_data(n):
         }
     }
 
-# Define a function to determine whether it's 8 pm or later
+# Define a function to determine whether it's time to update the daily report or not
 def is_time_to_update():
     local_time = datetime.datetime.now(pytz.timezone('UTC'))
-    return local_time.hour >= 10
+    return local_time.hour >= 20
 
 # Define the function to update the daily report
 @app.callback(
@@ -103,23 +104,20 @@ def update_daily_report(n):
     if not is_time_to_update():
         return dash.no_update
 
-    # Load the updated CSV file containing the ETH price data
     df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], sep=';')
-
-    # Convert the date column to datetime objects
     df['date'] = pd.to_datetime(df['date'])
-
+    
     # Calculate the open price of the current day and the close price of the last day
     now = datetime.datetime.now(pytz.timezone('UTC'))
     today = now.date()
     yesterday = today - datetime.timedelta(days=1)
-
+    
     # Get the open price for the current day
     open_price_today = float(df[df['date'].dt.date == today].iloc[0]['price'].replace(',',''))
-
+    
     # Get the close price for the last day
     close_price_yesterday = float(df[df['date'].dt.date == yesterday].iloc[-1]['price'].replace(',',''))
-    
+ 
     # Get the open price for the last day
     open_price_yesterday = float(df[df['date'].dt.date == yesterday].iloc[0]['price'].replace(',', ''))
     percentage_change = ((open_price_today - open_price_yesterday) / open_price_yesterday) * 100
@@ -127,7 +125,6 @@ def update_daily_report(n):
     # Calculate the 24-hour volatility
     last_24h_prices = df[df['date'].dt.date == yesterday]['price'].replace(',', '', regex=True).astype(float)
     last_24h_prices = pd.concat([last_24h_prices, pd.Series([open_price_today])], ignore_index=True)
-
     last_24h_volatility = np.std(last_24h_prices)
 
     # Determine the color of the percentage change text
