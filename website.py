@@ -137,7 +137,7 @@ def update_daily_report(n):
     percentage_change = ((open_price_today - open_price_yesterday) / open_price_yesterday) * 100
         
     # Calculate the 24-hour volatility
-    last_24h_prices = df[df['date'].dt.date == yesterday]['price'].replace(',', '').astype(float)
+    last_24h_prices = df[df['date'].dt.date == yesterday]['price'].replace(',', '',regex=True).astype(float)
     last_24h_prices = pd.concat([last_24h_prices, pd.Series([open_price_today])], ignore_index=True)
     last_24h_price_changes = compute_percentage_change(last_24h_prices.values)
     last_24h_volatility = np.std(last_24h_price_changes)
