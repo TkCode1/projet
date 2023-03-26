@@ -4,7 +4,6 @@ from dash import dcc
 from dash import html
 import pandas as pd
 import datetime
-import time
 import pytz
 
 # Load CSV with ETH prices
@@ -70,6 +69,10 @@ def update_current_price(n):
     # Return the updated current price display
     return f'ETH last price: ${current_price}'
 
+# This function will help for volatility calculus
+def compute_percentage_change(prices):
+    return (prices[1:] - prices[:-1]) / prices[:-1] * 100
+
 # Define the function to update the graph data
 @app.callback(dash.dependencies.Output('price-graph', 'figure'),
               [dash.dependencies.Input('interval-component', 'n_intervals')])
@@ -134,9 +137,10 @@ def update_daily_report(n):
     percentage_change = ((open_price_today - open_price_yesterday) / open_price_yesterday) * 100
         
     # Calculate the 24-hour volatility
-    last_24h_prices = df[df['date'].dt.date == yesterday]['price'].replace(',', '', regex=True).astype(float)
+    last_24h_prices = df[df['date'].dt.date == yesterday]['price'].replace(',', '').astype(float)
     last_24h_prices = pd.concat([last_24h_prices, pd.Series([open_price_today])], ignore_index=True)
-    last_24h_volatility = np.std(last_24h_prices)
+    last_24h_price_changes = compute_percentage_change(last_24h_prices.values)
+    last_24h_volatility = np.std(last_24h_price_changes)
 
     # Determine the color of the percentage change text
     color = 'green' if percentage_change >= 0 else 'red'
