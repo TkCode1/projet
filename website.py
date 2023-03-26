@@ -91,12 +91,14 @@ def update_graph_data(n):
 
 
 last_report_update = datetime.datetime.now(pytz.timezone('UTC'))
-
+first_run = True
 # Define a function to determine whether it's time to update the daily report or not
 def is_time_to_update():
     global last_report_update
     now = datetime.datetime.now(pytz.timezone('UTC'))
     time_since_last_update = now - last_report_update
+    if first_run:
+        return True
     return now.hour >= 20 and time_since_last_update >= datetime.timedelta(days=1)
 
 
@@ -112,7 +114,7 @@ def update_daily_report(n):
         return dash.no_update
 
     last_report_update = datetime.datetime.now(pytz.timezone('UTC'))
-
+    first_run = False
     df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], sep=';')
     df['date'] = pd.to_datetime(df['date'])
     
