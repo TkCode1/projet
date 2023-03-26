@@ -152,8 +152,8 @@ def update_daily_report(n):
     # Return the updated daily report
     return html.Div([
         html.H2('Ethereum Daily Market Information (updating at 8pm each day)', style={'text-align': 'left', 'color': '#627EEA', 'font-family': 'Poppins, sans-serif'}),
-        html.P(f"Open price today: ${open_price_today:.2f}"), 
-        html.P(f"Close price yesterday: ${close_price_yesterday:.2f}"),
+        html.P(f"Open price today (00:00): ${open_price_today:.2f}"), 
+        html.P(f"Close price yesterday (23:55): ${close_price_yesterday:.2f}"),
         html.P(f"24-hour Volatility: {last_24h_volatility:.2f}%"),
         html.P(f"Percentage change in open price (today vs. yesterday): ", style={'display': 'inline'}),
         html.P(f"{percentage_change:.2f}%", style={'display': 'inline', 'color': color}),
