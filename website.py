@@ -89,10 +89,16 @@ def update_graph_data(n):
         }
     }
 
+
+last_report_update = datetime.datetime.now(pytz.timezone('UTC'))
+
 # Define a function to determine whether it's time to update the daily report or not
 def is_time_to_update():
-    local_time = datetime.datetime.now(pytz.timezone('UTC'))
-    return local_time.hour >= 20
+    global last_report_update
+    now = datetime.datetime.now(pytz.timezone('UTC'))
+    time_since_last_update = now - last_report_update
+    return now.hour >= 20 and time_since_last_update >= datetime.timedelta(days=1)
+
 
 # Define the function to update the daily report
 @app.callback(
@@ -100,8 +106,12 @@ def is_time_to_update():
     [dash.dependencies.Input('interval-component', 'n_intervals')]
 )
 def update_daily_report(n):
+    global last_report_update
+
     if not is_time_to_update():
         return dash.no_update
+
+    last_report_update = datetime.datetime.now(pytz.timezone('UTC'))
 
     df = pd.read_csv('/home/ubuntu/proj/eth_prices.csv', names=['date', 'price'], sep=';')
     df['date'] = pd.to_datetime(df['date'])
