@@ -112,7 +112,7 @@ def is_time_to_update():
 )
 def update_daily_report(n):
     global last_report_update
-
+    global first_run
     if not is_time_to_update():
         return dash.no_update
 
