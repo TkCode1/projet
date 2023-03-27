@@ -102,7 +102,7 @@ def is_time_to_update():
     time_since_last_update = now - last_report_update
     if first_run:
         return True
-    return now.hour >= 20 and time_since_last_update >= datetime.timedelta(days=1)
+    return now.hour >= 20 or time_since_last_update >= datetime.timedelta(days=1)
 
 
 # Define the function to update the daily report
