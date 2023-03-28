@@ -95,6 +95,7 @@ def update_graph_data(n):
 
 last_report_update = datetime.datetime.now(pytz.timezone('UTC'))
 first_run = True
+current_report = ""
 # Define a function to determine whether it's time to update the daily report or not
 def is_time_to_update():
     global last_report_update
@@ -109,7 +110,6 @@ def is_time_to_update():
     [dash.dependencies.Input('interval-component', 'n_intervals')]
 )
 
-current_report = ""
 
 def update_daily_report(n):
     global last_report_update
