@@ -100,9 +100,7 @@ def is_time_to_update():
     global last_report_update
     now = datetime.datetime.now(pytz.timezone('UTC'))
     time_since_last_update = now - last_report_update
-    if first_run:
-        return True
-    return now.hour >= 20 or time_since_last_update >= datetime.timedelta(days=1)
+    return (now.hour >= 20 and time_since_last_update >= datetime.timedelta(days=1)) or first_run
 
 
 # Define the function to update the daily report
@@ -110,11 +108,17 @@ def is_time_to_update():
     dash.dependencies.Output('daily-report', 'children'),
     [dash.dependencies.Input('interval-component', 'n_intervals')]
 )
+
+current_report = ""
+
 def update_daily_report(n):
     global last_report_update
     global first_run
+    global current_report 
     if not is_time_to_update():
-        return dash.no_update
+        return current_report
+    #if not is_time_to_update():
+     #   return dash.no_update
 
     last_report_update = datetime.datetime.now(pytz.timezone('UTC'))
     first_run = False
@@ -150,7 +154,7 @@ def update_daily_report(n):
     all_time_low = dfpricereplaced.min()
 
     # Return the updated daily report
-    return html.Div([
+    current_report = html.Div([
         html.H2('Ethereum Daily Market Information (updating at 8pm each day)', style={'text-align': 'left', 'color': '#627EEA', 'font-family': 'Poppins, sans-serif'}),
         html.P(f"Open price today (00:00): ${open_price_today:.2f}"), 
         html.P(f"Close price yesterday (23:55): ${close_price_yesterday:.2f}"),
@@ -164,6 +168,7 @@ def update_daily_report(n):
         html.Br(),
         html.P(f"All-time low (since the website creation): ", style={'display': 'inline'}), html.P(f"${all_time_low:.2f}", style={'display': 'inline', 'color': 'red'})
     ])
+    return current_report
 
 
 if __name__ == '__main__':
